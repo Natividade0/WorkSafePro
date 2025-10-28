@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E1E1E">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:text="WorkSafe Pro"
+            android:textSize="26sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <Button android:id="@+id/btnOcorrencias" android:text="Ocorrências" />
+        <Button android:id="@+id/btnEPI" android:text="EPIs" />
+        <Button android:id="@+id/btnTreinamentos" android:text="Treinamentos" />
+        <Button android:id="@+id/btnRelatorios" android:text="Relatórios" />
+        <Button android:id="@+id/btnAgenda" android:text="Agenda" />
+        <Button android:id="@+id/btnPerfil" android:text="Perfil" />
+    </LinearLayout>
+</ScrollView>

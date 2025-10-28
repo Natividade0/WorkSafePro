@@ -2,11 +2,12 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
-        maven { url "https://repo.repsy.io/mvn/itsaky/androidide-public" }
+        // Repositórios extras para evitar erro com dependências AndroidIDE
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://repo.repsy.io/mvn/itsaky/androidide-public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:7.3.1'
     }
 }
 
@@ -14,8 +15,17 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
-        maven { url "https://repo.repsy.io/mvn/itsaky/androidide-public" }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://repo.repsy.io/mvn/itsaky/androidide-public' }
+    }
+}
+
+subprojects {
+    configurations.all {
+        resolutionStrategy {
+            // Ignora dependências que o AndroidIDE tenta forçar (como LogSender)
+            force 'com.google.code.findbugs:jsr305:3.0.2'
+        }
     }
 }
 

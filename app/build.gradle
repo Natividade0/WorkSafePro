@@ -1,34 +1,16 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        // Repositórios extras para evitar erro com dependências AndroidIDE
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.repsy.io/mvn/itsaky/androidide-public' }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
-    }
+plugins {
+    id 'com.android.application'
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.repsy.io/mvn/itsaky/androidide-public' }
-    }
-}
+android {
+    namespace 'com.worksafepro.app'
+    compileSdk 35
 
-subprojects {
-    configurations.all {
-        resolutionStrategy {
-            // Ignora dependências que o AndroidIDE tenta forçar (como LogSender)
-            force 'com.google.code.findbugs:jsr305:3.0.2'
-        }
+    defaultConfig {
+        applicationId 'com.worksafepro.app'
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

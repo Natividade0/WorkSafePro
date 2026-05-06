@@ -13,4 +13,19 @@ android {
         versionCode 1
         versionName '1.0'
     }
+
+    sourceSets {
+        main {
+            java {
+                exclude '**/PerfilActivity.java'
+                exclude '**/AgendaActivity.java'
+                exclude '**/RelatoriosActivity.java'
+                exclude '**/TreinamentosActivity.java'
+                exclude '**/EPIActivity.java'
+                exclude '**/OcorrenciasActivity.java'
+                exclude 'com/worksafepro/MainActivity.java'
+                exclude '**/com/worksafepro/MainActivity.java'
+            }
+        }
+    }
 }

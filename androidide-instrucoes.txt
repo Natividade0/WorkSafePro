@@ -1,0 +1,18 @@
+COMO ABRIR NO ANDROIDIDE
+
+1. Abra o AndroidIDE no celular.
+2. Toque em Clone Repository.
+3. Cole este link:
+
+https://github.com/Natividade0/WorkSafePro.git
+
+4. Aguarde baixar.
+5. Abra o arquivo index.html.
+
+OBSERVACAO
+
+Neste momento o repositorio recebeu a base inicial do WorkSafePro.
+O proximo passo e substituir o index.html pela versao completa do SafeWork Field ou transformar o projeto em APK Android com WebView.
+
+Se quiser apenas testar o app como pagina web, abra index.html.
+Se quiser gerar APK, sera necessario adicionar a estrutura Android com Gradle e WebView.

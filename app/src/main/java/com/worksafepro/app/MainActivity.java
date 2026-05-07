@@ -25,7 +25,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         webView = new WebView(this);
         setContentView(webView);
 
@@ -46,14 +45,11 @@ public class MainActivity extends Activity {
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
-            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> callback, FileChooserParams params) {
-                if (filePathCallback != null) {
-                    filePathCallback.onReceiveValue(null);
-                }
+            public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback, FileChooserParams params) {
+                if (filePathCallback != null) filePathCallback.onReceiveValue(null);
                 filePathCallback = callback;
 
-                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 galleryIntent.setType("image/*");
 
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -63,16 +59,10 @@ public class MainActivity extends Activity {
                     cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 }
 
-                Intent chooserIntent = Intent.createChooser(galleryIntent, "Selecionar imagem");
+                Intent chooserIntent = Intent.createChooser(galleryIntent, "Selecionar evidência fotográfica");
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cameraIntent});
-
-                try {
-                    startActivityForResult(chooserIntent, FILE_CHOOSER_REQUEST_CODE);
-                    return true;
-                } catch (Exception e) {
-                    filePathCallback = null;
-                    return false;
-                }
+                startActivityForResult(chooserIntent, FILE_CHOOSER_REQUEST_CODE);
+                return true;
             }
         });
 
@@ -80,28 +70,20 @@ public class MainActivity extends Activity {
     }
 
     private Uri createImageUri() {
-        try {
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.DISPLAY_NAME, "worksafepro_" + System.currentTimeMillis() + ".jpg");
-            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-            return getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        } catch (Exception e) {
-            return null;
-        }
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, "worksafepro_" + System.currentTimeMillis() + ".jpg");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        return getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == FILE_CHOOSER_REQUEST_CODE && filePathCallback != null) {
             Uri[] results = null;
             if (resultCode == RESULT_OK) {
-                if (data != null && data.getData() != null) {
-                    results = new Uri[]{data.getData()};
-                } else if (cameraImageUri != null) {
-                    results = new Uri[]{cameraImageUri};
-                }
+                if (data != null && data.getData() != null) results = new Uri[]{data.getData()};
+                else if (cameraImageUri != null) results = new Uri[]{cameraImageUri};
             }
             filePathCallback.onReceiveValue(results);
             filePathCallback = null;
@@ -113,13 +95,11 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void printHtml(final String html, final String jobName) {
             runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+                @Override public void run() {
                     final WebView printWebView = new WebView(MainActivity.this);
                     printWebView.getSettings().setJavaScriptEnabled(true);
                     printWebView.setWebViewClient(new WebViewClient() {
-                        @Override
-                        public void onPageFinished(WebView view, String url) {
+                        @Override public void onPageFinished(WebView view, String url) {
                             PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
                             if (printManager != null) {
                                 printManager.print(jobName, printWebView.createPrintDocumentAdapter(jobName), new PrintAttributes.Builder().build());
@@ -133,25 +113,17 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface
         public void shareHtml(final String html) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/html");
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "WorkSafePro - PSe");
-                    intent.putExtra(Intent.EXTRA_TEXT, html);
-                    startActivity(Intent.createChooser(intent, "Compartilhar PSe"));
-                }
-            });
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/html");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "WorkSafePro - PSe");
+            intent.putExtra(Intent.EXTRA_TEXT, html);
+            startActivity(Intent.createChooser(intent, "Compartilhar PSe"));
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
+        if (webView != null && webView.canGoBack()) webView.goBack();
+        else super.onBackPressed();
     }
 }

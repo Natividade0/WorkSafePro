@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         settings.setDisplayZoomControls(false);
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl("file:///android_asset/app-pse.html");
+        webView.loadUrl("file:///android_asset/app-full.html");
     }
 
     @Override

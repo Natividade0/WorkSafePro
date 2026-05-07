@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         settings.setDisplayZoomControls(false);
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl("file:///android_asset/app-full2.html");
+        webView.loadUrl("file:///android_asset/app-full-dark.html");
     }
 
     @Override

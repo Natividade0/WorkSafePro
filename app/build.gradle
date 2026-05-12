@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
 }
 
 android {
@@ -20,10 +19,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
     sourceSets {
         main {
             java {
@@ -35,7 +30,6 @@ android {
                 exclude '**/OcorrenciasActivity.java'
                 exclude 'com/worksafepro/MainActivity.java'
                 exclude '**/com/worksafepro/MainActivity.java'
-                exclude '**/MainActivity.java'
             }
         }
     }

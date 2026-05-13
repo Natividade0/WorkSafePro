@@ -19,16 +19,16 @@ public class MainActivity extends Activity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
-        settings.setDatabaseEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);
-        settings.setBuiltInZoomControls(false);
-        settings.setDisplayZoomControls(false);
 
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("file:///android_asset/app-full-dark.html");
+
+        try {
+            webView.loadUrl("file:///android_asset/recovery.html");
+        } catch (Exception e) {
+            finish();
+        }
     }
 
     @Override
